@@ -13,14 +13,16 @@ client.connect()
 # 単一のレジスタを読み取り（例: インバータ状態／制御入力命令）
 # 40008はModbusアドレスですが、アドレスのオフセットに注意してください。
 # pymodbusではアドレスが0から始まるため、1を引いた値を使用する必要があります。
-ADDRESS = 40008 - 1  # Modbusアドレスのオフセット調整
-result = client.read_holding_registers(ADDRESS, 1, unit=1)  # unitはModbusデバイスIDです。
+address = 0
+ADDRESS_START = 0  # Modbusアドレスのオフセット調整
+ADDRESS_END = 100
+  # unitはModbusデバイスIDです。
 
 # 結果を表示
-if not result.isError():
-    print(f"Value at address {ADDRESS}: {result.registers}")
-else:
-    print("Error reading register")
+for address in range(ADDRESS_START, ADDRESS_END):
+    response = client.read_holding_registers(address, 1, unit=1)
+    if not response.isError():
+        print(f"Current {address+40001} Value: {response.registers[0]}")
 
 # 接続を閉じる
 client.close()
