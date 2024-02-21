@@ -13,13 +13,14 @@ client.connect()
 # 単一のレジスタを読み取り
 address = 0
 ADDRESS_START = 0
-ADDRESS_END = 100
+ADDRESS_END = 20
 
+print(f"About {HOST} resister...")
 # 結果を表示
 for address in range(ADDRESS_START, ADDRESS_END):
     response = client.read_holding_registers(address, 1, unit=1)
     if not response.isError():
-        print(f"Current {address+40001} Value: {response.registers[0]}")
+        print(f"Resister {address+40001} Value: {response.registers[0]}")
 
 # 接続を閉じる
 client.close()
